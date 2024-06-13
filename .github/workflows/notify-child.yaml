@@ -1,0 +1,15 @@
+name: notify-child
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'common/**'
+      - 'child/**'
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch to child repo
+        run: |
+          curl -XPOST -u "${{secrets.PAT_USERNAME}}:${{secrets.PAT_TOKEN}}" -H "Accept: application/vnd.github+json" -H "Content-Type: application/json" https://api.github.com/repos/kfranqueiro/test-childrepo/dispatches --data '{"event_type":"build-from-monorepo"}'
